@@ -8,15 +8,16 @@ const TextInput = ({
     form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
     ...props
   }) => (
-    <Select
-        native
-        {...field}
-        {...props}
-    >
-          <option value='club'>Club</option>
-          <option value='trek'>Trek</option>
-          <option value='tropic'>Tropic</option>
-    </Select>
+        <Select
+            native
+            {...field}
+            {...props}
+        >
+            <option value=''>Please select travel type</option>
+            <option value='club'>Club</option>
+            <option value='trek'>Trek</option>
+            <option value='tropic'>Tropic</option>
+        </Select>
 )
 
 export default TextInput

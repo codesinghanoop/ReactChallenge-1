@@ -3,16 +3,24 @@ import { Formik, Form, Field, FormikProps, ErrorMessage } from 'formik'
 import DatePicker from '../DatePicker'
 import TextInput from '../TextInput'
 import DropDown from '../DropDown'
+import * as Yup from 'yup';
+
+const formSchema = Yup.object().shape({
+    date: Yup.string()
+      .required('Required'),
+    place: Yup.string()
+      .required('Required'),
+    type: Yup.string()
+      .required('Required'),
+  });
+
 
 class CreateTripForm extends React.Component {
 
-    handleSubmit = (values, {
-        props = this.props,
-        setSubmitting
-      }) => {
-        console.log(values);
+    handleSubmit = (values, formData) => {
+        console.log('onsubmit form',formData);
         this.props.createTripAction(values);
-        setSubmitting(false);
+        formData.setSubmitting(false);
         return;
     }
 
@@ -24,30 +32,27 @@ class CreateTripForm extends React.Component {
                 place: '',
                 type: ''
              }}
-             validate={(values) => {
-               let errors = [];
-               if(!values.date)
-                  errors.date = "Date is Required";
-               if(!values.place)
-                  errors.place = "Place is required";
-               if(!values.type)
-                  errors.type = "Type is required";
-                  //check if my values have errors
-                  return errors;
-             }}
+             validationSchema={formSchema}
              onSubmit={this.handleSubmit}
-             render= {(formProps) => {
+             render= {({ errors, touched, isSubmitting }) => {
+                 console.log('the errors are',errors, touched)
                 return (
                     <Form>
                         <Field name="date" component={DatePicker} placeholder="Date"/>
-                        <ErrorMessage name="date" />
+                        {errors.date && touched.date ? (
+                            <div>{errors.date}</div>
+                        ) : null}
                         <Field name="place" component={TextInput} placeholder="Place"/>
-                        <ErrorMessage name="place" />
+                        {errors.place && touched.place ? (
+                            <div>{errors.place}</div>
+                        ) : null}
                         <Field name="type" component={DropDown} placeholder="Type"/>
-                        <ErrorMessage name="type" />
+                        {errors.type && touched.type ? (
+                            <div>{errors.type}</div>
+                        ) : null}
                         <button
                             type="submit"
-                            disabled={formProps.isSubmitting}>
+                            disabled={isSubmitting || Object.keys(errors).length}>
                                 Submit Form
                         </button>
                     </Form>

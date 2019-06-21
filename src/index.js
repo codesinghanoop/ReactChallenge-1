@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, withRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+import { connectRouter } from 'connected-react-router'
 import trip from './Container/CreateTrip/reducer'
 import './index.css';
 import App from './App';
